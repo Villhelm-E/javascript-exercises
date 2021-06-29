@@ -1,25 +1,17 @@
 let findTheOldest = function(people) {
     //Variables
-    var oldest = 0; //as index of people[]
     d = new Date();
 
-    //loops through people[] and adds each item's age to ages[]
-    const ages = people.map(person => {
-        if (!person.yearOfDeath) {
-            return d.getFullYear(Date.now()) - person.yearOfBirth;
-        }
-        else {
-            return person.yearOfDeath - person.yearOfBirth;
-        }})
+    //sorts people by years lived so far
+    const oldest = people.sort(function(a, b) {
+        let lastGuy = [];
+        !a.yearOfDeath ? (lastGuy = d.getFullYear(Date.now()) - a.yearOfBirth) : (lastGuy = a.yearOfDeath - a.yearOfBirth);
+        !b.yearOfDeath ? (nextGuy = d.getFullYear(Date.now()) - b.yearOfBirth) : (nextGuy = b.yearOfDeath - b.yearOfBirth);
+        return lastGuy > nextGuy ? -1 : 1;
+    });
 
-    //loop through ages to find the oldest
-    for (i = 0; i < people.length; i++) {
-        //only update oldest when loop finds a larger age
-        (ages[i] > ages[oldest]) && (oldest = i);
-    }
-
-    //return the correct element in people[] using 'oldest' as an index
-    return people[oldest];
+    //return first item in the list of sorted people to get the oldest
+    return oldest[0];
 }
 
 module.exports = findTheOldest
